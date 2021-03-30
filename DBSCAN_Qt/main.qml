@@ -55,18 +55,25 @@ Window {
     }
 
     Button {
+        id: btStart
         x: 482
         y: 220
         width: 142
         height: 26
         text: qsTr("START")
         onClicked: {
+            for(var i = observationGroup.children.length; i > 0 ; i--) {
+                observationGroup.children[i-1].label = 0
+            }
+            appController.clear();
+
             showRegionCheckBox.checked = false
             appController.getAllObservations(observationGroup, epsilon, parseInt(txtMinPoint.text));
         }
     }
 
     Button {
+        id: btReset
         x: 482
         y: 250
         width: 142

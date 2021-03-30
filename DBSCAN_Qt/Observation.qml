@@ -53,7 +53,7 @@ Rectangle {
 
 
     onLabelChanged: {
-        if(label > 0){
+        if(label != 0){
             anim1.start()
             anim2.start()
         }
