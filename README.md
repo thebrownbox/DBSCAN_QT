@@ -1,1 +1,1 @@
-# DBSCAN_QT
+DBSCAN Algorithm Simulation
