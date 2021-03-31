@@ -6,12 +6,12 @@ Rectangle {
     property int epsilon: mainWindow.epsilon
     property bool isShowRegion: mainWindow.isShowRegion
     property int label: 0
-    property variant colors: ['white', 'red', 'orange', 'yellow', 'green', 'blue', 'purple', 'brown' ]
+    property variant colors: ['white','red','orange','yellow','green','blue','purple','brown','aqua','navy','teal','olive','lime']
     width: size
     height: size
     radius: width/2
 //    color: "#f5f5f5"
-    color: label < 0 ? "gray" : colors[label]
+    color: label < 0 ? "gray" : colors[label%colors.length]
     border.width: border_size
     border.color: "black"
 
@@ -26,7 +26,7 @@ Rectangle {
         radius: width/2
         border.width: 1
         border.color: parent.color
-        visible: label == 0 ? isShowRegion : true
+        visible: appController.bIsRunning ? (label == 0 ? isShowRegion : true) : isShowRegion
     }
 
 

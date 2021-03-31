@@ -13,6 +13,7 @@ class AppController : public QObject
     Q_OBJECT
     Q_PROPERTY(int numberOfCluster READ getNumberOfCluster WRITE setNumberOfCluster NOTIFY numberOfClusterChanged)
     Q_PROPERTY(int numberOfOutliers READ getNumberOfOutliers WRITE setNumberOfOutliers NOTIFY numberOfOutliersChanged)
+    Q_PROPERTY(int bIsRunning READ getBIsRunning WRITE setBIsRunning NOTIFY bIsRunningChanged)
 public:
     explicit AppController(QQmlEngine *engine, QObject *parent = nullptr);
 
@@ -22,10 +23,14 @@ public:
     int getNumberOfOutliers() const;
     void setNumberOfOutliers(int value);
 
+    bool getBIsRunning() const;
+    void setBIsRunning(bool value);
+
 signals:
     void valueChanged(int newValue);
     void numberOfClusterChanged();
     void numberOfOutliersChanged();
+    void bIsRunningChanged();
 
 public slots:
     void getAllObservations(QObject* group, int epsilon, int minPoints);
@@ -35,6 +40,7 @@ public slots:
 private:
     int numberOfCluster;
     int numberOfOutliers;
+    bool bIsRunning;
 
     QQmlEngine *mEngine;
     QList<QQuickItem*> mObservations;

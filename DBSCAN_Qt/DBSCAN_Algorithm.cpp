@@ -22,7 +22,6 @@ void DBSCAN_Algorithm::initData(QList<Node> data, int epsilon, int minPoint)
     MIN_POINT = minPoint;
 
     qDebug() << "Size: " << mObservations.size() << " Eps: " << EPSILON << " MinPoint: " << MIN_POINT;
-    qDebug() << distance(mObservations[0], mObservations[1]);
 
     DBSCAN();
 }

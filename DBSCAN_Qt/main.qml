@@ -23,8 +23,28 @@ Window {
         y: 49
         text: qsTr("Epsilon: " + epsilon)
         font.pixelSize: 12
+        font.bold: true
+    }
+    Text {
+        id: element1
+        x: 482
+        y: 121
+        text: qsTr("Min Points:")
+        font.pixelSize: 12
+        font.bold: true
     }
 
+    TextInput {
+        id: txtMinPoint
+        x: 552
+        y: 117
+        width: 58
+        height: 23
+        text: qsTr("2")
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
+        font.pixelSize: 12
+    }
 
     Rectangle {
         x: 16
@@ -43,12 +63,24 @@ Window {
             id: observationGroup
             anchors.fill: parent
         }
+        Observation{
+            id: sampleObservation
+            visible: showSampleCheckBox.checked
+        }
+
         MouseArea{
             anchors.fill: parent
             onClicked: {
-                console.log("Hello" + (mouseX- observationSize/2) +" - " + (mouseY- observationSize/2))
+//                console.log("Hello" + (mouseX- observationSize/2) +" - " + (mouseY- observationSize/2))
                 addNewObservation(mouseX - observationSize/2, mouseY-observationSize/2)
                 //appController.addNewObservation(observationGroup, mouseX - observationSize/2, mouseY-observationSize/2);
+            }
+            hoverEnabled: true
+            onMouseXChanged: updateSample()
+            onMouseYChanged: updateSample()
+            function updateSample(){
+                sampleObservation.x = mouseX - observationSize/2
+                sampleObservation.y = mouseY-observationSize/2
             }
         }
 
@@ -66,7 +98,7 @@ Window {
                 observationGroup.children[i-1].label = 0
             }
             appController.clear();
-
+            showSampleCheckBox.checked = false
             showRegionCheckBox.checked = false
             appController.getAllObservations(observationGroup, epsilon, parseInt(txtMinPoint.text));
         }
@@ -106,7 +138,7 @@ Window {
 
 
     Observation {
-        id: sampleObservation
+        id: modelObservation
         x: 582
         y: 49
         label: 1
@@ -120,53 +152,65 @@ Window {
         width: 142
         height: 40
         font.pointSize: 40
-        value: 0.35
+        value: 0.5
 
     }
 
-    Text {
-        id: element1
-        x: 482
-        y: 141
-        text: qsTr("Min Points:")
-        font.pixelSize: 12
-    }
 
-    TextInput {
-        id: txtMinPoint
-        x: 550
-        y: 139
-        width: 80
-        height: 20
-        text: qsTr("3")
-        verticalAlignment: Text.AlignVCenter
-        horizontalAlignment: Text.AlignHCenter
-        font.pixelSize: 12
-    }
 
     CheckBox {
         id: showRegionCheckBox
-        x: 482
-        y: 165
+        x: 491
+        y: 142
         text: qsTr("Show Region")
         checkState: Qt.Checked
     }
 
+    Connections{
+        target: appController
+        onBIsRunningChanged:{
+            if(appController.bIsRunning == false){
+                showRegionCheckBox.checkState = Qt.Checked;
+            }
+        }
+    }
+
+    Text {
+        id: element4
+        x: 503
+        y: 302
+        text: qsTr("Observs: " + observationGroup.children.length)
+        font.bold: true
+        font.pixelSize: 14
+    }
+
     Text {
         id: element2
-        x: 501
-        y: 315
-        text: qsTr("Number Of Cluster: " + appController.numberOfCluster)
-        font.pixelSize: 12
+        x: 503
+        y: 325
+        text: qsTr("Clusters: " + appController.numberOfCluster)
+        font.bold: true
+        font.pixelSize: 14
     }
 
     Text {
         id: element3
-        x: 501
+        x: 503
         y: 348
-        text: qsTr("Number Of Outliers: " + appController.numberOfOutliers)
-        font.pixelSize: 12
+        text: qsTr("Outliers : " + appController.numberOfOutliers)
+        font.bold: true
+        font.pixelSize: 14
     }
+
+    CheckBox {
+        id: showSampleCheckBox
+        x: 491
+        y: 174
+        text: qsTr("Show Sample")
+        checkState: Qt.Checked
+    }
+
+
 
 
     function addNewObservation(posX, posY){

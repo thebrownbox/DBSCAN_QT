@@ -13,6 +13,7 @@ AppController::AppController(QQmlEngine *engine, QObject *parent) : QObject(pare
 
 void AppController::getAllObservations(QObject* group, int epsilon, int minPoints)
 {
+    setBIsRunning(true);
     qDebug() << "group->children().size(): " << group->children().size();
     mObservations.clear();
     for(int i=0; i<group->children().size(); i++){
@@ -21,6 +22,7 @@ void AppController::getAllObservations(QObject* group, int epsilon, int minPoint
     }
 
     mDBSCAN_Algo->initData(mObservations, epsilon, minPoints);
+    setBIsRunning(false);
 }
 
 void AppController::addNewObservation(QObject *parent, float x, float y)
@@ -61,4 +63,15 @@ void AppController::clear()
 {
     setNumberOfCluster(0);
     setNumberOfOutliers(0);
+}
+
+bool AppController::getBIsRunning() const
+{
+    return bIsRunning;
+}
+
+void AppController::setBIsRunning(bool value)
+{
+    bIsRunning = value;
+    emit bIsRunningChanged();
 }
